@@ -1,0 +1,16 @@
+{
+  "name": "319-mongodb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Rodney St. Cloud",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "nodemon": "^3.1.0"
+  }
+}
