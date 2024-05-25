@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.mjs",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node index.mjs",
+    "dev": "nodemon index.mjs"
   },
   "author": "Rodney St. Cloud",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "mongodb": "^6.6.2",
     "nodemon": "^3.1.0"
   }
 }
