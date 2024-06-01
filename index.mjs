@@ -15,11 +15,11 @@ import { request } from "http";
 // JSON middleware
 app.use(express.json());
 
-app.get("/", (request, response) => {
-  response.send(`Welcom to the grade API`);
+app.get("/api", (request, response) => {
+  response.send(`<h1>Welcom to the grade API</h1>`);
 });
 
-app.use("/grades", grades);
+app.use("/api/grades", grades);
 
 // app.use("/grades", (request, response) => {
 //   response.send(`You are on the grades route`);
