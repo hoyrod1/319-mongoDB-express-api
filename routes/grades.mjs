@@ -31,7 +31,27 @@ router.post("/", async (request, response) => {
 //========================================================================//
 
 //========================================================================//
-// Add a score to a grade entry
+// Get a single grade resource using the route - /api/grades/:id
+router.get("/:id", async (request, response) => {
+  let id;
+  try {
+    id = new ObjectId(request.params.id);
+  } catch (error) {
+    response.status(404).send(`Id not found`);
+  }
+
+  const collection = await db.collection("grades");
+  const query = { _id: id };
+  const result = await collection.findOne(query);
+
+  if (!result) {
+    response.send(`File not found`).status(400);
+  } else {
+    response.json(result).status(200);
+  }
+});
+//-------------------------------------------------------------------------//
+// Add a score to a grade entry using the route - /api/grades/:id
 router.patch("/:id/add", async (request, response) => {
   try {
     const grades = await db.collection("grades");
@@ -53,7 +73,7 @@ router.patch("/:id/add", async (request, response) => {
   }
 });
 //-------------------------------------------------------------------------//
-// Remove a score to a grade entry
+// Remove a score to a grade entry using the route - /api/grades/:id
 router.patch("/:id/remove", async (request, response) => {
   try {
     const grades = await db.collection("grades");
@@ -74,30 +94,8 @@ router.patch("/:id/remove", async (request, response) => {
     response.send(error.message).status(error.status ? error : 400);
   }
 });
-//=========================================================================//
-
-//=========================================================================//
-// Get a single Grade resource
-router.get("/:id", async (request, response) => {
-  let id;
-  try {
-    id = new ObjectId(request.params.id);
-  } catch (error) {
-    response.status(404).send(`Id not found`);
-  }
-
-  const collection = await db.collection("grades");
-  const query = { _id: id };
-  const result = await collection.findOne(query);
-
-  if (!result) {
-    response.send(`File not found`).status(400);
-  } else {
-    response.json(result).status(200);
-  }
-});
 //-------------------------------------------------------------------------//
-// Delete a single resource
+// Delete a single grade resource using the route - /api/grades/:id
 router.delete("/:id", async (request, response) => {
   let id;
   try {
@@ -117,11 +115,12 @@ router.delete("/:id", async (request, response) => {
 
 //=========================================================================//
 // Get a student's resources backwards compatibility
+// using the route - /api/grades/student/:id
 router.get("/student/:id", async (request, response) => {
-  response.redirect(`../learner/${request.params.id}`);
+  response.redirect(`/api/grades/learner/${request.params.id}`);
 });
 //-------------------------------------------------------------------------//
-// Get a student's grade resource
+// Get a student's grade resource using the route - /api/grades/learner/:id
 router.get("/learner/:id", async (request, response) => {
   try {
     const grades = await db.collection("grades");
@@ -163,7 +162,7 @@ router.delete("/learner/:id", async (request, response) => {
 router.get("/class/:id", async (request, response) => {
   let id;
   try {
-    id = new ObjectId(request.params.id);
+    id = Number(request.params.id);
   } catch (error) {
     response.status(404).send(`The class id was not found`);
   }
